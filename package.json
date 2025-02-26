@@ -1,0 +1,16 @@
+{
+  "name": "sam",
+  "type": "module",
+  "description": "Addon for Construct 3",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npx c3fo build",
+    "dev": "npx c3fo build --dev",
+    "doc": "npx c3fo doc"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "c3-framework": "github:C3Framework/core",
+    "sam-js": "^0.3.1"
+  }
+}
