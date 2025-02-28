@@ -2,7 +2,7 @@
   "name": "sam",
   "type": "module",
   "description": "Addon for Construct 3",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "npx c3fo build",
     "dev": "npx c3fo build --dev",

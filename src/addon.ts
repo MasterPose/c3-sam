@@ -5,7 +5,7 @@ const Config: PluginConfig = {
   type: "object",
   id: "MasterPose_SamTTS",
   name: "SAM",
-  version: "1.0.0.0",
+  version: "1.0.1.0",
   category: "general",
   author: "Master Pose",
   description: "Run the SAM Text-To-Speech (TTS) inside Construct 3!",
