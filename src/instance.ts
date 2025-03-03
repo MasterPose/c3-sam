@@ -495,6 +495,28 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
       this.trigger(this.onSpeechStop);
     });
   }
+
+  debugProperties() {
+    return {
+      isSpeaking: this.isAnySpeaking(),
+      speaking: [...speaking.values()].join(', '),
+      speed: (v: number) => {
+        this.setSpeechSpeed(v);
+      },
+      pitch: (v: number) => {
+        this.setSpeechPitch(v);
+      },
+      throat: (v: number) => {
+        this.setSpeechThroat(v);
+      },
+      mouth: (v: number) => {
+        this.setSpeechMouth(v);
+      },
+      volume: (v: number) => {
+        this.setSpeechVolume(v);
+      }
+    };
+  }
 }
 
 export default Instance;
