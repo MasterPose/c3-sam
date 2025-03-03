@@ -88,7 +88,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
   async startSpeech(
     @Param({ desc: 'The text to say.' })
     text: string,
-    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    @Param({ desc: 'Tag to uniquely identify the speech.', autocompleteId: 'tag' })
     tag: string
   ): Promise<JSONValue> {
     return this.startSpeechWithParams(
@@ -123,7 +123,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
       ]
     })
     character: combo,
-    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    @Param({ desc: 'Tag to uniquely identify the speech.', autocompleteId: 'tag' })
     tag: string
   ): Promise<JSONValue> {
     const { mouth, pitch, speed, throat } = CHARACTERS[Object.keys(CHARACTERS)[character]];
@@ -160,7 +160,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
       desc: 'The attenuation in decibels (dB). 0 is original volume, -10 is about half as loud, etc.'
     })
     volume: number = 0,
-    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    @Param({ desc: 'Tag to uniquely identify the speech.', autocompleteId: 'tag' })
     tag: string
   ): Promise<JSONValue> {
     return this._postToDOMAsync('PlaySpeech', {
@@ -182,7 +182,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
     category: 'stop'
   })
   stopSpeech(
-    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    @Param({ desc: 'Tag to uniquely identify the speech.', autocompleteId: 'tag' })
     tag: string
   ): void {
     return this._postToDOM('StopSpeech', { tag });
@@ -205,7 +205,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
     displayText: 'Is Speaking {0}',
   })
   isSpeaking(
-    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    @Param({ desc: 'Tag to uniquely identify the speech.', autocompleteId: 'tag' })
     tag: string
   ): boolean {
     return speaking.has(tag);
@@ -261,7 +261,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
     category: 'triggerTag',
   })
   onSpeechStart(
-    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    @Param({ desc: 'Tag to uniquely identify the speech.', autocompleteId: 'tag' })
     tag: string
   ): boolean {
     return tag === this._tag;
@@ -273,7 +273,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
     category: 'triggerTag',
   })
   onSpeechEnd(
-    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    @Param({ desc: 'Tag to uniquely identify the speech.', autocompleteId: 'tag' })
     tag: string
   ): boolean {
     return tag === this._tag;
@@ -285,7 +285,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
     category: 'triggerTag',
   })
   onSpeechStop(
-    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    @Param({ desc: 'Tag to uniquely identify the speech.', autocompleteId: 'tag' })
     tag: string
   ): boolean {
     return tag === this._tag;
@@ -297,7 +297,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
     category: 'triggerTag',
   })
   onError(
-    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    @Param({ desc: 'Tag to uniquely identify the speech.', autocompleteId: 'tag' })
     tag: string
   ): boolean {
     return tag === this._tag;
