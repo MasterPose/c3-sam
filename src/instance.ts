@@ -1,4 +1,4 @@
-import { AceClass, Action, Expression, Param, Plugin, Trigger } from "c3-framework";
+import { AceClass, Action, Condition, Expression, Param, Plugin, Trigger } from "c3-framework";
 import Config from "./addon";
 import { SpeakOptions } from "./types/plugin";
 
@@ -42,6 +42,8 @@ const CHARACTERS = {
     mouth: 128,
   }
 } as { [key: string]: SpeakOptions };
+
+const speaking = new Set<String>;
 
 @AceClass()
 class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
@@ -192,6 +194,29 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
   })
   stopAllSpeeches(): void {
     return this._postToDOM('StopAllSpeeches');
+  }
+
+  /*
+   * Conditions
+   */
+
+  @Condition({
+    listName: 'Is Speaking',
+    displayText: 'Is Speaking {0}',
+  })
+  isSpeaking(
+    @Param({ desc: 'Tag to uniquely identify the speech.' })
+    tag: string
+  ): boolean {
+    return speaking.has(tag);
+  }
+
+  @Condition({
+    listName: 'Is Any Speaking',
+    displayText: 'Is Any Speaking',
+  })
+  isAnySpeaking(): boolean {
+    return speaking.size > 0;
   }
 
   /* ==========
@@ -439,6 +464,7 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
       const { tag, buffer } = data;
       this._tag = tag;
       this._buffer = buffer;
+      speaking.add(tag);
 
       this.trigger(this.onAnySpeechStart);
       this.trigger(this.onSpeechStart);
@@ -446,6 +472,8 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
     this._addDOMMessageHandler('OnSpeechEnd', (data: any) => {
       const { tag } = data;
       this._tag = tag;
+      speaking.delete(tag);
+
       this.trigger(this.onAnySpeechEnd);
       this.trigger(this.onSpeechEnd);
     })
@@ -453,12 +481,15 @@ class Instance extends Plugin.Instance(Config, globalThis.ISDKInstanceBase) {
       const { tag, error } = data;
       this._error = `${error}`;
       this._tag = tag;
+      speaking.delete(tag);
+
       this.trigger(this.onAnyError);
       this.trigger(this.onError);
     })
     this._addDOMMessageHandler('OnSpeechStop', (data: any) => {
       const { tag } = data;
       this._tag = tag;
+      speaking.delete(tag);
 
       this.trigger(this.onAnySpeechStop);
       this.trigger(this.onSpeechStop);
